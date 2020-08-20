@@ -1,10 +1,18 @@
-from flask import Blueprint
-from flask_restful import Api
+from flask import Flask
 
-from resources.Hello import Hello
+def create_app(config_filename):
+    app = Flask(__name__)
+    app.config.from_object(config_filename)
 
-api_bp = Blueprint('api', __name__)
-api = Api(api_bp)
+    return app
 
-# Routes
-api.add_resource(Hello, '/')
+app = create_app("config")
+
+@app.route('/soil-model/predict/',methods=['GET','POST'])
+def predict():
+    response = "For ML Prediction"
+    return {"message": response}	
+
+
+if __name__ == "__main__":
+    app.run(debug=True, port=3007)
